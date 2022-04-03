@@ -22,7 +22,7 @@ class Logic_Map:
             max_len, transformed = self.transform_data(result)
             qrates, norm, valfmt = self.setup_LogicMap()
             fig = plt.figure()
-            fig.set_figheight(len(transformed)+4)
+            fig.set_figheight(1.5 * len(transformed))
             fig.set_figwidth(max_len)
             for i in range(len(transformed)):
                 ax = plt.subplot2grid(shape=(len(transformed), max_len), loc=(
@@ -56,7 +56,6 @@ class Logic_Map:
 
         return max(len_lst), heatmap_inputs
 
-
     def setup_LogicMap(self, quality_rates="PPOFF"):
         qrates = list(quality_rates)
         linspace = np.linspace(-3.5, 3.5, len(qrates)+1)
@@ -67,7 +66,6 @@ class Logic_Map:
 
         return qrates, norm, valfmt
 
-
     def create_LogicMap(self, ax, data, var_name, var_values, qrates, norm, valfmt):
 
         if(len(data) == len(var_values)):
@@ -75,14 +73,15 @@ class Logic_Map:
             row_labels = [var_name]
             col_labels = var_values
 
-            im = ax.imshow(data, cmap=plt.get_cmap("PiYG", len(qrates)), norm=norm)
+            im = ax.imshow(data, cmap=plt.get_cmap(
+                "PiYG", len(qrates)), norm=norm)
 
             ax.set_xticks(np.arange(data.shape[1]), labels=col_labels)
             ax.set_yticks(np.arange(data.shape[0]), labels=row_labels)
 
             # Let the horizontal axes labeling appear on top.
             ax.tick_params(top=True, bottom=False,
-                        labeltop=True, labelbottom=False)
+                           labeltop=True, labelbottom=False)
 
             # Turn spines off and create white grid.
             ax.spines[:].set_visible(False)
@@ -93,10 +92,10 @@ class Logic_Map:
             ax.tick_params(which="minor", bottom=False, left=False)
 
             kw = dict(horizontalalignment="center",
-                    verticalalignment="center",
-                    size=12,
-                    fontweight='bold'
-                    )
+                      verticalalignment="center",
+                      size=12,
+                      fontweight='bold'
+                      )
 
             # Get the formatter in case a string is supplied
             if isinstance(valfmt, str):
@@ -110,10 +109,10 @@ class Logic_Map:
         else:
             assert 0, "len(data) != len(var_values) check the length of the inputs"
 
-
     def teardown_LogicMap(self, filename=None):
 
         if(filename):
+            plt.tight_layout()
             plt.savefig(f'{filename}.jpg')
         else:
             plt.tight_layout()
@@ -121,6 +120,9 @@ class Logic_Map:
 
 
 if __name__ == '__main__':
-    
+
     LM = Logic_Map("( ( Var_new_8 < 8 && Var_new_8 > 1 && Var_new_1 < 8 && Var_new_1 > 1) || ( ( Var_new_1 == 1 && Var_new_2 == 2 && Var_new_3 == 3 && Var_new_4 == 4 ) || ( Var_new_5 == 5 && Var_new_6 == 6 && Var_new_7 == 7 && Var_new_8 == 8 ) ) )")
     print(LM.filename)
+
+    # LM = Logic_Map(" ( var1 == 1 && var2 == 2 && var3 == 3 && var4 == 4 && var5 == 5 && var6 == 6 && var7 == 7 && var8 == 8 && var9 == 9 && var10 == 10 && var11 == 11 && var12 == 12 && var13 == 13 && var14 == 14 && var15 == 15 && var16 == 16 && var17 == 17 && var18 == 18 && var19 == 19 && var20 == 20 && var21 == 21 && var22 == 22 && var23 == 23 && var24 == 24 && var25 == 25 && var26 == 26 && var27 == 27 && var28 == 28 && var29 == 29 && var30 == 30 && var31 == 31  )  ")
+    # print(LM.filename)
